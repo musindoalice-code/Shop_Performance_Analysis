@@ -1,3 +1,37 @@
+<div align="center">
+
+# 🛒 Shop Performance Analysis
+
+### Business Analysis Case Study | January 2024 – June 2026
+
+<p>
+  Turning raw business data into clear insights for better decisions.
+</p>
+
+</div>
+
+<p align="center">
+  <img 
+    src="images/shop-performance-analysis-banner.png" 
+    alt="Shop Performance Analysis"
+    width="100%"
+  />
+</p>
+
+---
+
+## 📊 Executive Snapshot
+
+| 💰 Valid Revenue | 🛒 Completed Orders | 🧾 Avg. Order Value | 📦 Units Sold |
+|:---:|:---:|:---:|:---:|
+| **R2.99M** | **42,721** | **R69.99** | **80,442** |
+
+| 📉 H1 2026 Revenue | 🖥️ Electronics | 👥 Regular Customers | 📍 Tehran |
+|:---:|:---:|:---:|:---:|
+| **-25.9%** | **50.6%** | **55.5%** | **27.5%** |
+
+---
+
 # How Is the Shop Performing?
 
 ![Shop Performance Analysis](assets/banner.png)
