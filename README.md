@@ -30,6 +30,8 @@
 |:---:|:---:|:---:|:---:|
 | **-25.9%** | **50.6%** | **55.5%** | **27.5%** |
 
+https://performance-shine-dashboard.lovable.app
+
 ---
 
 # How Is the Shop Performing?
