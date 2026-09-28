@@ -11,7 +11,6 @@
 
 # DBTITLE 1,Data Injestion
 
-#
 Products = spark.table("shop_performance.shop_performance_data.shop_products")
 Products_pd = Products.toPandas()
 display(Products)
