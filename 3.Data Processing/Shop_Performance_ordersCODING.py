@@ -3,11 +3,14 @@
 # [tool.databricks.environment]
 # environment_version = "5"
 # ///
-#imports pandas and reads each CSV into its own table (called a DataFrame).
+
 # import pandas as pd
 # import numpy as np
 
-# Data Injestion
+# COMMAND ----------
+
+# DBTITLE 1,Data Injestion
+#
 Orders=spark.table("shop_performance.shop_performance_data.shop_orders")
 Orders=Orders.toPandas()
 display(Orders)
@@ -23,6 +26,8 @@ Orders.info()
 
 # previews the first 5 rows
 Orders.head()
+
+
 
 # COMMAND ----------
 
@@ -41,7 +46,7 @@ duplicate_orders = Orders[Orders.duplicated(subset="OrderID", keep=False)]
 print("Number of duplicate OrderID rows:", duplicate_orders.shape[0])
 duplicate_orders.sort_values("OrderID")
 
-#inspect the duplicate OrderIDs : shows the actual duplicate rows side by side, sorted by OrderID, so we see  different data under the same ID
+#Checking the actual duplicate rows side by side, sorted by OrderID, so we see different data under the same ID
 dupes = Orders[Orders.duplicated(subset="OrderID", keep=False)].sort_values("OrderID")
 dupes.head(20)
 
@@ -54,24 +59,22 @@ Products = spark.table("shop_performance.shop_performance_data.shop_products").t
 Orders = Orders.merge(Products[['ProductID', 'UnitPrice']], on='ProductID', how='left')
 Orders['amount'] = Orders['Quantity'] * Orders['UnitPrice'] * (1 - Orders['Discount'])
 
-# Your existing code setup
+
 duplicate_orders = Orders[Orders.duplicated(subset="OrderID", keep=False)]
 print("Number of duplicate OrderID rows:", duplicate_orders.shape[0])
 
-# --- NEW CODE TO CHECK VALUE AMOUNTS ---
+# CHECK VALUE AMOUNTS ---
 
 # Option A: Total value of ALL rows that have duplicate IDs 
-# (Good for seeing the total volume of transactions flagged with issues)
 total_flagged_value = duplicate_orders['amount'].sum() 
 print(f"Total value of all flagged duplicate rows: ${total_flagged_value:,.2f}")
 
-# Option B: Value of just the EXCESS/REDUNDANT rows 
-# (Good for seeing how much money would be lost or double-counted if these are pure system errors)
+# Checking how much money would be lost or double-counted if these are pure system errors)
 excess_dupes = Orders[Orders.duplicated(subset="OrderID", keep='first')]
 total_excess_value = excess_dupes['amount'].sum()
 print(f"Total value of excess/double-counted rows: ${total_excess_value:,.2f}")
 
-# --- Proceed with your existing inspection ---
+# inspection 
 dupes = duplicate_orders.sort_values("OrderID")
 dupes.head(20)
 
@@ -108,36 +111,34 @@ df['OrderDate'] = pd.to_datetime(df['OrderDate'])
 df['Month'] = df['OrderDate'].dt.to_period('M')
 
 # 4. Group by Month and aggregate Order Count and Total Revenue
-# Replace 'OrderID' and 'amount' with your actual column names
 monthly_analysis = df.groupby('Month').agg(
     Total_Orders=('OrderID', 'nunique'),  # Counts unique orders per month
     Total_Revenue=('amount', 'sum')       # Sums up the revenue per month
 ).reset_index()
 
-# 5. Format the output for easy reading
+# 5. Formating the output for easy reading
 monthly_analysis['Total_Revenue_Formatted'] = monthly_analysis['Total_Revenue'].map('${:,.2f}'.format)
 
-# 6. Display the monthly breakdown
+# 6. Displaying the monthly breakdown
 print("=== Month-by-Month Order & Revenue Summary ===")
 print(monthly_analysis[['Month', 'Total_Orders', 'Total_Revenue_Formatted']].to_string(index=False))
 
 
 # COMMAND ----------
 
-# 3. Create a Year-Quarter period column (e.g., 2026Q1)
+# 3. Creating a Year-Quarter period column 
 df['Quarter'] = df['OrderDate'].dt.to_period('Q')
 
 # 4. Group by Quarter and aggregate Order Count and Total Revenue
-# Replace 'OrderID' and 'amount' with your actual column names
 quarterly_analysis = df.groupby('Quarter').agg(
     Total_Orders=('OrderID', 'nunique'),  # Counts unique orders per quarter
     Total_Revenue=('amount', 'sum')       # Sums up the revenue per quarter
 ).reset_index()
 
-# 5. Format the financial output for easy reading
+# 5. Formating the financial output for easy reading
 quarterly_analysis['Total_Revenue_Formatted'] = quarterly_analysis['Total_Revenue'].map('${:,.2f}'.format)
 
-# 6. Display the quarterly breakdown
+# 6. Displaying the quarterly breakdown
 print("=== Quarter-by-Quarter Order & Revenue Summary ===")
 print(quarterly_analysis[['Quarter', 'Total_Orders', 'Total_Revenue_Formatted']].to_string(index=False))
 

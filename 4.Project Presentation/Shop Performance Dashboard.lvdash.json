@@ -1,0 +1,1112 @@
+{
+  "datasets": [
+    {
+      "name": "monthly_revenue",
+      "displayName": "Monthly Revenue Trend",
+      "queryLines": [
+        "SELECT\n",
+        "  DATE_TRUNC('month', o.OrderDate) AS YearMonth,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS RecognisedRevenue\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "WHERE\n",
+        "  o.OrderDate IS NOT NULL\n",
+        "GROUP BY\n",
+        "  DATE_TRUNC('month', o.OrderDate)\n",
+        "ORDER BY\n",
+        "  YearMonth"
+      ]
+    },
+    {
+      "name": "revenue_by_city",
+      "displayName": "Revenue by City",
+      "queryLines": [
+        "SELECT\n",
+        "  COALESCE(c.City, 'Unknown') AS City,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS RecognisedRevenue\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_customers c\n",
+        "      ON o.CustomerID = c.CustomerID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "GROUP BY\n",
+        "  COALESCE(c.City, 'Unknown')\n",
+        "ORDER BY\n",
+        "  RecognisedRevenue DESC"
+      ]
+    },
+    {
+      "name": "top_products",
+      "displayName": "Top 10 Products by Revenue",
+      "queryLines": [
+        "SELECT\n",
+        "  pr.ProductName,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS Revenue,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS Units\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "GROUP BY\n",
+        "  pr.ProductName\n",
+        "ORDER BY\n",
+        "  Revenue DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "revenue_by_category",
+      "displayName": "Revenue by Category",
+      "queryLines": [
+        "SELECT\n",
+        "  pr.Category,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS Revenue,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS Units\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "GROUP BY\n",
+        "  pr.Category\n",
+        "ORDER BY\n",
+        "  Revenue DESC"
+      ]
+    },
+    {
+      "name": "kpi_metrics",
+      "displayName": "KPI Metrics",
+      "queryLines": [
+        "SELECT\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS TotalRecognisedRevenue,\n",
+        "  COUNT(DISTINCT o.OrderID) AS TotalOrders,\n",
+        "  COUNT(DISTINCT\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        o.OrderID\n",
+        "    END\n",
+        "  ) AS RecognisedOrders,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  )\n",
+        "    / NULLIF(\n",
+        "      COUNT(DISTINCT\n",
+        "        CASE\n",
+        "          WHEN\n",
+        "            o.Status = 'Completed'\n",
+        "            AND p.PaymentStatus = 'Paid'\n",
+        "          THEN\n",
+        "            o.OrderID\n",
+        "        END\n",
+        "      ),\n",
+        "      0\n",
+        "    ) AS AvgOrderValue\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_customers c\n",
+        "      ON o.CustomerID = c.CustomerID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID"
+      ]
+    },
+    {
+      "name": "revenue_by_segment",
+      "displayName": "Revenue by Customer Segment",
+      "queryLines": [
+        "SELECT\n",
+        "  COALESCE(c.CustomerSegment, 'Unknown') AS CustomerSegment,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        o.Status = 'Completed'\n",
+        "        AND p.PaymentStatus = 'Paid'\n",
+        "      THEN\n",
+        "        CASE\n",
+        "          WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "          ELSE 0\n",
+        "        END\n",
+        "          * pr.UnitPrice\n",
+        "          * (1 - o.Discount)\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) AS RecognisedRevenue\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_customers c\n",
+        "      ON o.CustomerID = c.CustomerID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "GROUP BY\n",
+        "  COALESCE(c.CustomerSegment, 'Unknown')\n",
+        "ORDER BY\n",
+        "  RecognisedRevenue DESC"
+      ]
+    },
+    {
+      "name": "order_status",
+      "displayName": "Order Status Distribution",
+      "queryLines": [
+        "SELECT\n",
+        "  o.Status,\n",
+        "  COUNT(*) AS OrderCount,\n",
+        "  ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) AS Pct\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "GROUP BY\n",
+        "  o.Status\n",
+        "ORDER BY\n",
+        "  OrderCount DESC"
+      ]
+    },
+    {
+      "name": "payment_fail_rate",
+      "displayName": "Payment Failure Rate by Method",
+      "queryLines": [
+        "SELECT\n",
+        "  COALESCE(o.PaymentMethod, 'Unknown') AS PaymentMethod,\n",
+        "  ROUND(\n",
+        "    AVG(\n",
+        "      CASE\n",
+        "        WHEN p.PaymentStatus = 'Failed' THEN 1.0\n",
+        "        ELSE 0.0\n",
+        "      END\n",
+        "    )\n",
+        "      * 100,\n",
+        "    1\n",
+        "  ) AS FailRatePct\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "GROUP BY\n",
+        "  COALESCE(o.PaymentMethod, 'Unknown')\n",
+        "ORDER BY\n",
+        "  FailRatePct DESC"
+      ]
+    },
+    {
+      "name": "discount_band_aov",
+      "displayName": "Avg Order Value by Discount Band",
+      "queryLines": [
+        "SELECT\n",
+        "  CASE\n",
+        "    WHEN o.Discount = 0 THEN '0%'\n",
+        "    WHEN o.Discount <= 0.1 THEN '1-10%'\n",
+        "    WHEN o.Discount <= 0.2 THEN '11-20%'\n",
+        "    ELSE '21+%'\n",
+        "  END AS DiscountBand,\n",
+        "  ROUND(\n",
+        "    AVG(\n",
+        "      CASE\n",
+        "        WHEN o.Quantity > 0 THEN o.Quantity\n",
+        "        ELSE 0\n",
+        "      END\n",
+        "        * pr.UnitPrice\n",
+        "        * (1 - o.Discount)\n",
+        "    ),\n",
+        "    2\n",
+        "  ) AS AvgOrderValue\n",
+        "FROM\n",
+        "  shop_performance.shop_performance_data.shop_orders o\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_products pr\n",
+        "      ON o.ProductID = pr.ProductID\n",
+        "    LEFT JOIN shop_performance.shop_performance_data.shop_payments p\n",
+        "      ON o.OrderID = p.OrderID\n",
+        "WHERE\n",
+        "  o.Status = 'Completed'\n",
+        "  AND p.PaymentStatus = 'Paid'\n",
+        "GROUP BY\n",
+        "  CASE\n",
+        "    WHEN o.Discount = 0 THEN '0%'\n",
+        "    WHEN o.Discount <= 0.1 THEN '1-10%'\n",
+        "    WHEN o.Discount <= 0.2 THEN '11-20%'\n",
+        "    ELSE '21+%'\n",
+        "  END\n",
+        "ORDER BY\n",
+        "  DiscountBand"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "2b4712c6",
+      "displayName": "Shop_Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "kpi_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "sum(TotalRecognisedRevenue)",
+                      "expression": "SUM(`TotalRecognisedRevenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Total Recognised Revenue",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(TotalRecognisedRevenue)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_orders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "sum(TotalOrders)",
+                      "expression": "SUM(`TotalOrders`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Total Orders",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(TotalOrders)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_recognised",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "sum(RecognisedOrders)",
+                      "expression": "SUM(`RecognisedOrders`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Recognised Orders",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(RecognisedOrders)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_aov",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "sum(AvgOrderValue)",
+                      "expression": "SUM(`AvgOrderValue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Average Order Value",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(AvgOrderValue)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "monthly_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly_revenue",
+                  "fields": [
+                    {
+                      "name": "YearMonth",
+                      "expression": "`YearMonth`"
+                    },
+                    {
+                      "name": "sum(RecognisedRevenue)",
+                      "expression": "SUM(`RecognisedRevenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Monthly Revenue Trend"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "YearMonth",
+                  "displayName": "YearMonth",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(RecognisedRevenue)",
+                  "displayName": "RecognisedRevenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue_by_category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "revenue_by_category",
+                  "fields": [
+                    {
+                      "name": "Category",
+                      "expression": "`Category`"
+                    },
+                    {
+                      "name": "sum(Revenue)",
+                      "expression": "SUM(`Revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Category"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "Category",
+                  "displayName": "Category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(Revenue)",
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "Category",
+                  "displayName": "Category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top_products",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_products",
+                  "fields": [
+                    {
+                      "name": "ProductName",
+                      "expression": "`ProductName`"
+                    },
+                    {
+                      "name": "sum(Revenue)",
+                      "expression": "SUM(`Revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Top 10 Products by Revenue"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ProductName",
+                  "displayName": "ProductName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(Revenue)",
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "ProductName",
+                  "displayName": "ProductName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue_by_city",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "revenue_by_city",
+                  "fields": [
+                    {
+                      "name": "City",
+                      "expression": "`City`"
+                    },
+                    {
+                      "name": "sum(RecognisedRevenue)",
+                      "expression": "SUM(`RecognisedRevenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by City"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "City",
+                  "displayName": "City",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(RecognisedRevenue)",
+                  "displayName": "RecognisedRevenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "City",
+                  "displayName": "City",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue_by_segment",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "revenue_by_segment",
+                  "fields": [
+                    {
+                      "name": "CustomerSegment",
+                      "expression": "`CustomerSegment`"
+                    },
+                    {
+                      "name": "sum(RecognisedRevenue)",
+                      "expression": "SUM(`RecognisedRevenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Customer Segment"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "CustomerSegment",
+                  "displayName": "CustomerSegment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(RecognisedRevenue)",
+                  "displayName": "RecognisedRevenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "CustomerSegment",
+                  "displayName": "CustomerSegment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "order_status",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "order_status",
+                  "fields": [
+                    {
+                      "name": "sum(OrderCount)",
+                      "expression": "SUM(`OrderCount`)"
+                    },
+                    {
+                      "name": "Status",
+                      "expression": "`Status`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Order Status Distribution"
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(OrderCount)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "OrderCount"
+                },
+                "color": {
+                  "fieldName": "Status",
+                  "displayName": "Status",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 15,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "payment_fail_rate",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "payment_fail_rate",
+                  "fields": [
+                    {
+                      "name": "PaymentMethod",
+                      "expression": "`PaymentMethod`"
+                    },
+                    {
+                      "name": "sum(FailRatePct)",
+                      "expression": "SUM(`FailRatePct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Payment Failure Rate by Method"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PaymentMethod",
+                  "displayName": "PaymentMethod",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(FailRatePct)",
+                  "displayName": "FailRatePct",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "PaymentMethod",
+                  "displayName": "PaymentMethod",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 21,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "discount_band_aov",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "discount_band_aov",
+                  "fields": [
+                    {
+                      "name": "DiscountBand",
+                      "expression": "`DiscountBand`"
+                    },
+                    {
+                      "name": "avg(AvgOrderValue)",
+                      "expression": "AVG(`AvgOrderValue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Avg Order Value by Discount Band",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "DiscountBand",
+                  "displayName": "DiscountBand",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(AvgOrderValue)",
+                  "displayName": "AvgOrderValue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "DiscountBand",
+                  "displayName": "DiscountBand",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 21,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "key_insights",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Key Insights\n",
+                "\n",
+                "**1. Electronics drives over half of all revenue, but Accessories sells the most units.**\n",
+                "Electronics generated **$1.51M (50.6%)** of total recognised revenue from 33,506 units, while Accessories sold **35,031 units** (the highest volume) but contributed only **$481K (16.1%)**. The shop depends on high-value electronics items for revenue, while accessories drive customer volume.\n",
+                "\n",
+                "**2. Revenue was stable for two years, then dropped sharply in 2026.**\n",
+                "Monthly revenue held steady at **$95K–$113K** from January 2024 through January 2026. From February 2026 onward, it fell to **$65K–$75K per month** — a **35% decline** that warrants immediate investigation.\n",
+                "\n",
+                "**3. 8% of orders never convert to revenue.**\n",
+                "Of 50,000 orders, **4,015 were cancelled (4.9%) or returned (3.1%)**. Additionally, payment failure rates are consistent across all methods at **3.6–4.0%**. Combined, roughly **1 in 12 orders** generates no revenue — a significant leakage point.\n",
+                "\n",
+                "**4. VIP customers underperform their segment.**\n",
+                "VIP customers generated only **$288K (9.7%)** of revenue, while Regular customers drove **$1.66M (55.5%)** and New customers **$1.04M (34.8%)**. The VIP segment is not delivering proportionally higher value.\n",
+                "\n",
+                "**5. Higher discounts reduce average order value.**\n",
+                "Orders with 0% discount average **$74.54** per order, while orders with 21%+ discounts average only **$56.06** — a **25% lower AOV**. Discounts are eroding revenue without driving larger basket sizes."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 27,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "recommendations",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Recommendations for the Head of Operations\n",
+                "\n",
+                "### 1. Investigate the 2026 revenue decline\n",
+                "Revenue dropped **35%** from ~$107K/month to ~$65–75K/month starting February 2026. Determine whether this reflects fewer recorded months, a seasonal dip, or a real business downturn. If real, prioritise marketing spend and customer retention campaigns in the affected period.\n",
+                "\n",
+                "### 2. Reduce cancellations and returns\n",
+                "**8% of orders** (4,015) are cancelled or returned, representing significant lost revenue. Set a target to halve this to 4% by improving product descriptions, delivery reliability, and post-purchase support. Even a **1% reduction** would recover an estimated **$30K** in annualised revenue.\n",
+                "\n",
+                "### 3. Optimise the discount strategy\n",
+                "Higher discounts correlate with **lower** average order values ($74.54 at 0% vs $56.06 at 21%+). Discounts are eroding margin without driving larger baskets. Test capping discounts at **10–20%** and measure the impact on both order volume and total revenue. Also review the VIP segment — at 9.7% of revenue, VIP customers are not delivering proportionally higher value and may need targeted retention offers.\n",
+                "\n",
+                "---\n",
+                "\n",
+                "### Data Problems Found & Handled\n",
+                "\n",
+                "| Problem | Count | Decision |\n",
+                "| --- | --- | --- |\n",
+                "| Duplicate order rows | 120 | Dropped exact duplicates |\n",
+                "| Unparseable OrderDates | 35 | Kept rows, excluded from time charts |\n",
+                "| Invalid Quantity (≤0 or null) | 105 | Kept rows, revenue set to 0 |\n",
+                "| Missing Discount | 220 | Filled with 0 (no discount) |\n",
+                "| Missing PaymentMethod | 450 | Labelled 'Unknown' |\n",
+                "| Missing City | 119 | Filled with 'Unknown' |\n",
+                "| Misspelled cities | 40+ | Standardised (e.g. 'tehran' → 'Tehran', 'Mashad' → 'Mashhad') |\n",
+                "| Cancelled/returned orders | 4,015 | Excluded from recognised revenue |\n",
+                "| Failed/refunded payments | ~4% | Excluded from recognised revenue |"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 34,
+            "width": 12,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

@@ -6,7 +6,12 @@
 # import pandas as pd
 # import numpy as np
 
-# Data Injestion
+
+# COMMAND ----------
+
+# DBTITLE 1,Data Injestion
+
+#
 Products = spark.table("shop_performance.shop_performance_data.shop_products")
 Products_pd = Products.toPandas()
 display(Products)
@@ -24,6 +29,22 @@ Products_pd.info()
 
 # previews the first 5 rows
 Products_pd.head()
+
+# COMMAND ----------
+
+# DBTITLE 1,Unique Products
+Products_pd["ProductName"].unique()
+
+
+
+# COMMAND ----------
+
+Products_pd["ProductName"].value_counts().sum()
+
+# COMMAND ----------
+
+# DBTITLE 1,Category
+Products_pd["Category"].value_counts()
 
 # COMMAND ----------
 
