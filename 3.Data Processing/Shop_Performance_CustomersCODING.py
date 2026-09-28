@@ -45,6 +45,12 @@ Customers.dtypes
 
 # COMMAND ----------
 
+# Convert to integer while safely keeping missing values
+Customers['Age'] = Customers['Age'].astype('Int64')
+display(Customers[['Age']])
+
+# COMMAND ----------
+
 # DBTITLE 1,Cell 4
 Customers["City"].unique()
 
