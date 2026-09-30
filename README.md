@@ -74,9 +74,9 @@ The Head of Operations isn't a data person. They just want to know: **is the sho
 
 ---
 
-## What we tested
+## What I tested
 
-Following the case study's own steps, we:
+Following the case study's own steps, I:
 
 1. **Profiled all four files** — row counts, column types, and what each row represents (customers = 1 row/customer, orders = 1 row/order line, payments = 1 row/payment attempt, products = 1 row/SKU).
 2. **Checked every data-quality angle the brief asked for** — missing values, duplicates, out-of-range numbers, inconsistent text, and broken links between tables (see [Data quality](#data-quality)).
