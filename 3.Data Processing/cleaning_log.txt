@@ -1,0 +1,2 @@
+orders: 450 
+customers: 119 rows have a blank City — .
