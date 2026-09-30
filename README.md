@@ -113,7 +113,7 @@ Following the case study's own steps, I:
 
 Real data is messy — here's every problem found and exactly what was done about it, so every number above can be traced back to a decision.
 
-| Issue | Rows affected | What we found | What we did |
+| Issue | Rows affected | What I found | What I did |
 |---|---|---|---|
 | Duplicate order lines | 120 | Same order repeated exactly — looked like a double-logged submission | Removed the repeats, kept the first occurrence |
 | Orders with no matching customer | 30 | CustomerID doesn't exist in `customers.csv` (broken link) | Removed (0.06% of orders) |
@@ -148,9 +148,6 @@ Real data is messy — here's every problem found and exactly what was done abou
         └── orders_clean.csv            ← the joined, order-level table everything is built from
 ```
 
-### `Shop_Performance_Dashboard.xlsx`
-
-An Excel workbook for anyone who wants to explore beyond this README — every KPI and chart is a live formula (`SUMIFS`/`COUNTIFS`/`AVERAGEIFS`) reading from the `Orders_Clean` tab, so it recalculates if that table is edited.
 
 | Tab | What it answers |
 |---|---|
@@ -164,6 +161,5 @@ An Excel workbook for anyone who wants to explore beyond this README — every K
 | **Data_Quality** | Every issue found and what was done about it |
 | **Orders_Clean** | The full cleaned, joined order-level table (49,830 rows) |
 
-`Orders_Clean` is a cleaned snapshot, not a live link to the raw CSVs — if new raw data arrives, re-run the cleaning steps and paste the refreshed table in, keeping the same column layout, and every formula and chart on the other tabs will update automatically.
 
 ---
