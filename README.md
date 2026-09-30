@@ -11,12 +11,9 @@
 </div>
 
 <p align="center">
-  <img 
-    src="images/shop-performance-analysis-banner.png" 
-    alt="Shop Performance Analysis"
-    width="100%"
-  />
+  <img src="Shop_Performance_Analysis.banner.png/Image.png" alt="Shop Performance Analysis" width="100%" />
 </p>
+
 
 ---
 
