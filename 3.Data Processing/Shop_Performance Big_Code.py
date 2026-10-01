@@ -3,176 +3,119 @@
 # [tool.databricks.environment]
 # environment_version = "6"
 # ///
-# DBTITLE 1,Documentation — Issues Found & Corrections
-# MAGIC %md
-# MAGIC # Shop Performance — Data Cleaning Pipeline
-# MAGIC
-# MAGIC ## Documentation: Issues Found & Corrections Made
-# MAGIC
-# MAGIC ### 1. Compute Environment
-# MAGIC - **Issue**: Notebook was attached to a Serverless SQL warehouse, which only supports SQL cells. Python cells failed with `Unsupported cell during execution`.
-# MAGIC - **Fix**: Switched compute to **Serverless CPU**, which supports Python/pandas execution.
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 2. Logging Mechanism (Cell 2)
-# MAGIC - **Issue**: `log = []` and `def note(msg)` accumulated cleaning messages for an audit-trail file (`cleaning_log.txt`). This added unnecessary complexity — every cleaning step had to wrap its `print()` in `note()` and store the message.
-# MAGIC - **Original syntax**:
-# MAGIC   ```python
-# MAGIC   log = []
-# MAGIC   def note(msg):
-# MAGIC       print(msg)
-# MAGIC       log.append(msg)
-# MAGIC   ```
-# MAGIC - **Corrected**: Removed `log` and `note()`. All `note()` calls replaced with `print()`. The `cleaning_log.txt` file write in Cell 12 was removed.
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 3. Duplicate Removal (Cell 3)
-# MAGIC - **Issue**: Used intermediate count variables (`dupe_rows`, `dupe_ids`) with `if` conditionals before calling `drop_duplicates()`. Since `drop_duplicates()` is a no-op when no duplicates exist, the conditionals were redundant.
-# MAGIC - **Original syntax**:
-# MAGIC   ```python
-# MAGIC   dupe_rows = orders.duplicated().sum()
-# MAGIC   if dupe_rows:
-# MAGIC       orders = orders.drop_duplicates()
-# MAGIC   dupe_ids = orders["OrderID"].duplicated().sum()
-# MAGIC   if dupe_ids:
-# MAGIC       orders = orders.drop_duplicates(subset="OrderID", keep="first")
-# MAGIC   ```
-# MAGIC - **Corrected**:
-# MAGIC   ```python
-# MAGIC   orders = orders.drop_duplicates()
-# MAGIC   orders = orders.drop_duplicates(subset="OrderID", keep="first")
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 4. Date Parsing (Cell 4)
-# MAGIC - **Issue**: Unused variable `bad_dates = orders["OrderDate"].isna().sum()` was calculated but never used (it was meant for the old `note()` logger). Comment also had a stray dash.
-# MAGIC - **Corrected**: Removed `bad_dates`. Kept `errors="coerce"` — the simplest approach for handling invalid dates (unparseable values become `NaT`).
-# MAGIC   ```python
-# MAGIC   orders["OrderDate"] = pd.to_datetime(orders["OrderDate"], errors="coerce")
-# MAGIC   payments["PaymentDate"] = pd.to_datetime(payments["PaymentDate"], errors="coerce")
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 5. Quantity Cleanup (Cell 5)
-# MAGIC - **Issue**: Multi-step pattern — boolean mask, count variable, `if` conditional, and `.loc[]` assignment — all to set non-positive and NaN quantities to 0.
-# MAGIC - **Original syntax**:
-# MAGIC   ```python
-# MAGIC   bad_qty = (orders["Quantity"] <= 0) | orders["Quantity"].isna()
-# MAGIC   n_bad_qty = bad_qty.sum()
-# MAGIC   if n_bad_qty:
-# MAGIC       orders.loc[bad_qty, "Quantity"] = 0
-# MAGIC   ```
-# MAGIC - **Corrected** — one-liner using `fillna()` + `clip()`:
-# MAGIC   ```python
-# MAGIC   orders["Quantity"] = orders["Quantity"].fillna(0).clip(lower=0)
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 6. Discount Fill (Cell 6)
-# MAGIC - **Issue**: Same redundant pattern — count + `if` check + `fillna()`.
-# MAGIC - **Original syntax**:
-# MAGIC   ```python
-# MAGIC   missing_discount = orders["Discount"].isna().sum()
-# MAGIC   if missing_discount:
-# MAGIC       orders["Discount"] = orders["Discount"].fillna(0)
-# MAGIC   ```
-# MAGIC - **Corrected**:
-# MAGIC   ```python
-# MAGIC   orders["Discount"] = orders["Discount"].fillna(0)
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 7. PaymentMethod Fill (Cell 7)
-# MAGIC - **Issue**: Intermediate `missing_pm` variable and garbled multi-line comment.
-# MAGIC - **Corrected**: Single `n_missing` check for the print message, then unconditional `fillna("Unknown")`.
-# MAGIC   ```python
-# MAGIC   n_missing = orders["PaymentMethod"].isna().sum()
-# MAGIC   if n_missing:
-# MAGIC       print(f"orders: {n_missing} blank PaymentMethod filled with 'Unknown'")
-# MAGIC   orders["PaymentMethod"] = orders["PaymentMethod"].fillna("Unknown")
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 8. City Normalization (Cell 8)
-# MAGIC - **Issue**: Unused variables (`n_fixed`, `missing_age`), separate `city_fixes` dict variable, and verbose `if`-conditional pattern.
-# MAGIC - **Original syntax**:
-# MAGIC   ```python
-# MAGIC   city_fixes = {"Mashad": "Mashhad"}
-# MAGIC   n_fixed = customers["City"].isin(city_fixes).sum()
-# MAGIC   customers["City"] = customers["City"].replace(city_fixes)
-# MAGIC   missing_city = customers["City"].isna().sum()
-# MAGIC   if missing_city:
-# MAGIC       print(f"customers: {missing_city} rows have a blank City — .")
-# MAGIC       customers["City"] = customers["City"].fillna("Unknown")
-# MAGIC   missing_age = customers["Age"].isna().sum()
-# MAGIC   ```
-# MAGIC - **Corrected**:
-# MAGIC   ```python
-# MAGIC   customers["City"] = customers["City"].str.strip().str.title()
-# MAGIC   customers["City"] = customers["City"].replace({"Mashad": "Mashhad"})
-# MAGIC   n_missing = customers["City"].isna().sum()
-# MAGIC   if n_missing:
-# MAGIC       print(f"customers: {n_missing} blank City filled with 'Unknown'")
-# MAGIC   customers["City"] = customers["City"].fillna("Unknown")
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 9. Save Step (Cell 12)
-# MAGIC - **Issue**: Wrote `cleaning_log.txt` using the accumulated `log` list. On Serverless compute, local file writes don't persist reliably.
-# MAGIC - **Original syntax**:
-# MAGIC   ```python
-# MAGIC   df.to_csv("cleaned_joined_orders.csv", index=False)
-# MAGIC   with open("cleaning_log.txt", "w") as f:
-# MAGIC       f.write("\n".join(log))
-# MAGIC   note("\nSaved cleaned_joined_orders.csv and cleaning_log.txt")
-# MAGIC   ```
-# MAGIC - **Corrected**:
-# MAGIC   ```python
-# MAGIC   df.to_csv("cleaned_joined_orders.csv", index=False)
-# MAGIC   print("\nSaved cleaned_joined_orders.csv")
-# MAGIC   ```
-# MAGIC
-# MAGIC ---
-# MAGIC
-# MAGIC ### 10. Cleaned Table Export (Cell 13 — New)
-# MAGIC - **Added**: New cell that saves the cleaned, joined DataFrame as a Unity Catalog table for export to other platforms (Power BI, Tableau, Excel, etc.).
-# MAGIC   ```python
-# MAGIC   spark_df_clean = spark.createDataFrame(df_export)
-# MAGIC   spark_df_clean.write.mode("overwrite").saveAsTable(
-# MAGIC       "shop_performance.shop_performance_data.cleaned_joined_orders"
-# MAGIC   )
-# MAGIC   ```
-
-# COMMAND ----------
-
 import pandas as pd
 import numpy as np
 import json
 
 # COMMAND ----------
 
-# STEP 0 — load
+# DBTITLE 1,Cell 3 — Load Cleaned Data from Unity Catalog
+# STEP 0 — load the cleaned, joined table from Unity Catalog
+# (Cleaning & joining already done and saved by Cells 4–14; skip straight to analysis)
 
-customers = spark.table("shop_performance.shop_performance_data.shop_customers").toPandas()
-orders = spark.table("shop_performance.shop_performance_data.shop_orders").toPandas()
-payments = spark.table("shop_performance.shop_performance_data.shop_payments").toPandas()
-products = spark.table("shop_performance.shop_performance_data.shop_products").toPandas()
+df = spark.table("shop_performance.shop_performance_data.cleaned_joined_orders").toPandas()
+
+# Re-create the revenue-recognition mask used by downstream analysis cells
+counts_as_revenue = (df["Status"] == "Completed") & (df["PaymentStatus"] == "Paid")
+
+print(f"Loaded cleaned_joined_orders: {df.shape[0]} rows, {df.shape[1]} columns")
+display(df.head(5))
 
 
 
 # COMMAND ----------
 
+# DBTITLE 1,Check 1 — Duplicate OrderIDs
+# Check 1: Duplicate OrderIDs (should be 0)
+dupes = df["OrderID"].duplicated().sum()
+print(f"Duplicate OrderIDs: {dupes}  (expected: 0)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 2 — NaT OrderDates
+# Check 2: Invalid dates coerced to NaT (rows preserved)
+nat_dates = df["OrderDate"].isna().sum()
+print(f"NaT OrderDates: {nat_dates}  (invalid dates -> NaT, rows kept)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 3 — Quantity Cleanup
+# Check 3: Bad quantities set to 0 (rows preserved)
+zero_qty = (df["Quantity"] == 0).sum()
+neg_qty = (df["Quantity"] < 0).sum()
+print(f"Quantity = 0: {zero_qty}  |  Negative: {neg_qty}  (bad qty -> 0, rows kept)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 4 — Discount Fill
+# Check 4: Missing Discount filled with 0
+missing_disc = df["Discount"].isna().sum()
+print(f"Missing Discount (NaN): {missing_disc}  (expected: 0)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 5 — PaymentMethod Fill
+# Check 5: Missing PaymentMethod filled with "Unknown"
+unknown_pm = (df["PaymentMethod"] == "Unknown").sum()
+nan_pm = df["PaymentMethod"].isna().sum()
+print(f"PaymentMethod='Unknown': {unknown_pm}  |  NaN: {nan_pm}  (NaN expected: 0)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 6 — City Normalization
+# Check 6: City spelling normalized (Mashad -> Mashhad)
+old = (df["City"] == "Mashad").sum()
+fixed = (df["City"] == "Mashhad").sum()
+print(f"City 'Mashad' (old): {old}  (expected: 0)")
+print(f"City 'Mashhad' (corrected): {fixed}")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 7 — City Unknown Fill
+# Check 7: Missing City filled with "Unknown"
+unknown_city = (df["City"] == "Unknown").sum()
+nan_city = df["City"].isna().sum()
+print(f"City='Unknown': {unknown_city}  |  NaN: {nan_city}  (NaN expected: 0)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 8 — Revenue Formula
+# Check 8: Revenue formula (Quantity * UnitPrice * (1 - Discount))
+sample = df[["Quantity", "UnitPrice", "Discount", "Revenue"]].head(5).copy()
+sample["CalcRevenue"] = sample["Quantity"] * sample["UnitPrice"] * (1 - sample["Discount"])
+sample["Match"] = np.isclose(sample["Revenue"], sample["CalcRevenue"])
+display(sample)
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 9 — RecognisedRevenue Logic
+# Check 9: RecognisedRevenue only for Completed + Paid orders
+non_qual = df[~counts_as_revenue]["RecognisedRevenue"].sum()
+print(f"RecognisedRevenue when NOT Completed+Paid: ${non_qual:,.2f}  (expected: $0.00)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check 10 — Derived Columns
+# Check 10: Derived columns present
+for col in ["Revenue", "RecognisedRevenue", "Year", "Month", "YearMonth"]:
+    status = "present" if col in df.columns else "MISSING"
+    print(f"  {col:20s}: {status}")
+
+# COMMAND ----------
+
+# DBTITLE 1,Load Raw Tables + Deduplicate Orders
+# Load raw tables for the cleaning pipeline (Cells 13–23)
+orders = spark.table("shop_performance.shop_performance_data.shop_orders").toPandas()
+payments = spark.table("shop_performance.shop_performance_data.shop_payments").toPandas()
+customers = spark.table("shop_performance.shop_performance_data.shop_customers").toPandas()
+products = spark.table("shop_performance.shop_performance_data.shop_products").toPandas()
+
 # --- orders: remove exact duplicate rows, then deduplicate by OrderID
+before = len(orders)
 orders = orders.drop_duplicates()
 orders = orders.drop_duplicates(subset="OrderID", keep="first")
+after = len(orders)
+print(f"Duplicate rows removed: {before - after}  ({before} -> {after})")
 
 # COMMAND ----------
 
@@ -180,34 +123,40 @@ orders = orders.drop_duplicates(subset="OrderID", keep="first")
 orders["OrderDate"] = pd.to_datetime(orders["OrderDate"], errors="coerce")
 payments["PaymentDate"] = pd.to_datetime(payments["PaymentDate"], errors="coerce")
 
+print(f"OrderDate:  {orders['OrderDate'].isna().sum()} invalid dates -> NaT")
+print(f"PaymentDate: {payments['PaymentDate'].isna().sum()} invalid dates -> NaT")
+
 # COMMAND ----------
 
 # --- orders: set negative/zero/NaN Quantity to 0
 orders["Quantity"] = orders["Quantity"].fillna(0).clip(lower=0)
+
+print(f"Quantity: {(orders['Quantity'] == 0).sum()} rows set to 0")
 
 # COMMAND ----------
 
 # --- orders: fill missing Discount with 0
 orders["Discount"] = orders["Discount"].fillna(0)
 
+print(f"Discount: {orders['Discount'].isna().sum()} remaining NaN (filled with 0)")
+
 # COMMAND ----------
 
 # --- orders: fill missing PaymentMethod with "Unknown"
 n_missing = orders["PaymentMethod"].isna().sum()
-if n_missing:
-    print(f"orders: {n_missing} blank PaymentMethod filled with 'Unknown'")
+print(f"PaymentMethod: {n_missing} blank values filled with 'Unknown'")
 orders["PaymentMethod"] = orders["PaymentMethod"].fillna("Unknown")
- 
 
 # COMMAND ----------
 
 # --- customers: normalize city spelling/casing, fill blanks with "Unknown"
 customers["City"] = customers["City"].str.strip().str.title()
 customers["City"] = customers["City"].replace({"Mashad": "Mashhad"})
+mashad_fixed = (customers["City"] == "Mashhad").sum()
 
 n_missing = customers["City"].isna().sum()
-if n_missing:
-    print(f"customers: {n_missing} blank City filled with 'Unknown'")
+print(f"City: 'Mashad' -> 'Mashhad' ({mashad_fixed} rows)")
+print(f"City: {n_missing} blank values filled with 'Unknown'")
 customers["City"] = customers["City"].fillna("Unknown")
 
 # COMMAND ----------
