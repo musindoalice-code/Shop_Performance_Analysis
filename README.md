@@ -11,7 +11,7 @@
 
 ------------------------------------------------------------------------
 
-## 👋 Recruiter Snapshot
+## 👋  Snapshot
 
 > **A practical end-to-end business analytics case study showing how I
 > turn messy transactional data into a management-ready story.**
@@ -57,21 +57,11 @@ BI reporting → business recommendations**.
 
 ## 📊 Executive Snapshot
 
-  -----------------------------------------------------------------------
-    💰 Recognised     🛒 Recognised     🧾 Avg. Order     📦 Units Sold
-       Revenue           Orders             Value       
-  ----------------- ----------------- ----------------- -----------------
-     **R2.98M**        **42,849**        **R69.50**        **80,482**
-
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
-     📉 H1 2026      🖥️ Electronics      👥 Regular         📍 Tehran
-       Revenue                            Customers     
-  ----------------- ----------------- ----------------- -----------------
-      **R462K**         **50.6%**         **55.5%**         **27.9%**
-
-  -----------------------------------------------------------------------
+| 💰 Recognised Revenue | 🛒 Recognised Orders | 🧾 Avg. Order Value | 📦 Units Sold |
+| :---: | :---: | :---: | :---: |
+| **R2.98M** | **42,849** | **R69.50** | **80,482** |
+| **📉 H1 2026 Revenue** | **🖥️ Electronics** | **👥 Regular Customers** | **📍 Tehran** |
+| **R462K** | **50.6%** | **55.5%** | **27.9%** |
 
 **Dashboard:** [Open the live Shop Performance
 dashboard](https://performance-shine-dashboard.lovable.app)
