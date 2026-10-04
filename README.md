@@ -4,9 +4,10 @@
   <p>Turning raw business data into clear insights for better decisions.</p>
   <p><strong>SQL • Python • Excel • Power BI • Data Cleaning • Business Intelligence</strong></p>
   <br />
- <img src="assets/shop-performance-analysis-banner.png" alt="Shop Performance Analysis" width="100%" />
+<img src="assets/shop-performance-analysis-banner.png" alt="Shop Performance Analysis" width="100%" />
 
 </div>
+
 
 
 ------------------------------------------------------------------------
