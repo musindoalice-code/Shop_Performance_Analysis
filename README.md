@@ -1,45 +1,140 @@
-<div align="center">
-
+::: {align="center"}
 # 🛒 Shop Performance Analysis
 
-### Business Analysis Case Study | January 2024 – June 2026
+### Business Analysis Case Study \| January 2024 -- June 2026
 
+```{=html}
 <p>
-  Turning raw business data into clear insights for better decisions.
+```
+Turning raw business data into clear insights for better decisions.
+```{=html}
 </p>
+```
+```{=html}
+<p>
+```
+`<strong>`{=html}SQL • Python • Excel • Power BI • Data Cleaning •
+Business Intelligence`</strong>`{=html}
+```{=html}
+</p>
+```
+:::
 
-</div>
-
+```{=html}
 <p align="center">
-  <img src="Shop_Performance_Analysis.banner.png/Image.png" alt="Shop Performance Analysis" width="100%" />
+```
+`<img src="Shop_Performance_Analysis.banner.png/Image.png" alt="Shop Performance Analysis" width="100%" />`{=html}
+```{=html}
 </p>
+```
 
+------------------------------------------------------------------------
 
----
+## 👋 Recruiter Snapshot
+
+> **A practical end-to-end business analytics case study showing how I
+> turn messy transactional data into a management-ready story.**
+
+This project demonstrates my ability to move from **raw data →
+data-quality checks → business rules → SQL/Python analysis → Excel/Power
+BI reporting → business recommendations**.
+
+### What this project demonstrates
+
+  -----------------------------------------------------------------------
+  Capability                          Evidence in this project
+  ----------------------------------- -----------------------------------
+  🧹 Data Cleaning                    Duplicates, missing values,
+                                      inconsistent city names, broken
+                                      links and validation checks
+
+  🗄️ SQL Analysis                     Filtering, aggregation, joins, CASE
+                                      logic, KPI calculations and
+                                      business questions
+
+  🐍 Python                           Data preparation, validation and
+                                      analytical checks
+
+  📊 Excel                            PivotTables, KPI analysis, trend
+                                      analysis and dashboard development
+
+  📈 Power BI                         Executive-style KPI reporting and
+                                      visual storytelling
+
+  💡 Business Analysis                Translating numbers into
+                                      operational findings and
+                                      recommendations
+
+  🗣️ Data Storytelling                Plain-language findings written for
+                                      a Head of Operations
+
+  🔎 Critical Thinking                Explicit revenue-recognition rule
+                                      and documented assumptions
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 ## 📊 Executive Snapshot
 
-| 💰 Valid Revenue | 🛒 Completed Orders | 🧾 Avg. Order Value | 📦 Units Sold |
-|:---:|:---:|:---:|:---:|
-| **R2.99M** | **42,721** | **R69.99** | **80,442** |
+  -----------------------------------------------------------------------
+    💰 Recognised     🛒 Recognised     🧾 Avg. Order     📦 Units Sold
+       Revenue           Orders             Value       
+  ----------------- ----------------- ----------------- -----------------
+     **R2.98M**        **42,849**        **R69.50**        **80,482**
 
-| 📉 H1 2026 Revenue | 🖥️ Electronics | 👥 Regular Customers | 📍 Tehran |
-|:---:|:---:|:---:|:---:|
-| **-25.9%** | **50.6%** | **55.5%** | **27.5%** |
+  -----------------------------------------------------------------------
 
-[https://performance-shine-dashboard.lovable.app](https://performance-shine-dashboard.lovable.app)
+  -----------------------------------------------------------------------
+     📉 H1 2026      🖥️ Electronics      👥 Regular         📍 Tehran
+       Revenue                            Customers     
+  ----------------- ----------------- ----------------- -----------------
+      **R462K**         **50.6%**         **55.5%**         **27.9%**
 
----
+  -----------------------------------------------------------------------
+
+**Dashboard:** [Open the live Shop Performance
+dashboard](https://performance-shine-dashboard.lovable.app)
+
+------------------------------------------------------------------------
 
 # How Is the Shop Performing?
 
 ![Shop Performance Analysis](assets/banner.png)
 
-A beginner data-analysis case study (customers, orders, products and payments for an online shop, Jan 2024–Jun 2026) turned into a plain-language answer for the Head of Operations, plus a live Excel dashboard for anyone who wants to dig further.
+A data-analysis case study covering customers, orders, products
+and payments for an online shop from January 2024 to June 2026.
 
----
+The objective was to turn four raw datasets into a clear answer for the
+**Head of Operations**: what is happening, what is driving performance,
+where revenue is leaking, and what should management do next?
 
-## Why this exists
+------------------------------------------------------------------------
+
+## 🎯 Business Problem
+
+The Head of Operations is not looking for technical analysis. They need
+answers to five practical questions:
+
+1.  **How much revenue is the shop generating?**
+2.  **Is performance improving or declining?**
+3.  **Which products, categories, cities and customer segments drive
+    value?**
+4.  **Where is revenue being lost?**
+5.  **What actions should the business take next?**
+
+The analysis was designed around these questions rather than around the
+available columns.
+
+------------------------------------------------------------------------
+
+## 👥 Who This Portfolio Is For
+
+### For recruiters and hiring managers
+
+This project shows how I approach an unfamiliar business problem from
+beginning to end --- not just how I create charts.
+
+##### Why this exists
 
 The Head of Operations isn't a data person. They just want to know: **is the shop doing well, and what should we do next?** This repo takes four raw CSV files — messy, like real business data always is — and turns them into a clear story: what happened, what's driving it, and three things worth doing about it.
 
@@ -48,118 +143,597 @@ The Head of Operations isn't a data person. They just want to know: **is the sho
 - **The Head of Operations** — read the [Headline findings](#headline-findings) and [Recommendations](#three-recommendations) below, or open `Shop_Performance_Dashboard.xlsx` and go straight to the **Dashboard** tab.
 - **Anyone who wants to check the work or dig deeper** — the [Methodology](#what-we-tested) and [Data quality](#data-quality) sections below explain exactly what was done and why; the Excel file has a tab for every question, built with live formulas, not just static numbers.
 
----
+### For business stakeholders
 
-## Headline findings
+The dashboard and executive findings provide a simple view of
+performance without requiring the reader to understand SQL or Python.
+
+### For technical reviewers
+
+The project provides traceability from raw data through cleaning,
+transformation, analysis and final reporting.
+
+------------------------------------------------------------------------
+
+## 🔍 Headline Findings
 
 ![Monthly revenue trend](assets/monthly_revenue_trend.png)
 
-- **Revenue was flat, then it wasn't.** The shop earned a steady **$100k–$114k a month** for two years, then dropped **~35%** starting February 2026 and hasn't recovered through June 2026 — five straight months down. This is the single biggest thing in the data.
-- **Electronics carries the business.** It brings in roughly **half of all revenue ($1.51M)** from well under a third of units sold. Accessories sells the most units (30,000) but at low prices, so it pads volume more than profit.
-- **Tehran is the biggest single market**, at over a quarter of total revenue. Regular customers bring in the most revenue overall, but **VIP customers don't spend more per order** than anyone else ($68.18 vs. ~$70.19) — there's no real "VIP premium" showing up yet.
-- **About 1 in 12 orders never becomes revenue.** Cancellations, returns, failed payments and refunds add up to **$503,943** in lost potential revenue over the period (14.4% of gross potential).
-- **Discounts aren't buying bigger baskets.** Average order value falls steadily as the discount rises — from $74.59 at 0% discount down to $56.15 at 26–30% — while the average number of items per order barely moves (~1.87–1.90 either way). Discounts here are pure margin giveaways.
+### 1. Revenue remained relatively stable before the 2026 slowdown
 
-| Metric | Value |
-|---|---|
-| Recognised revenue (Jan 2024–Jun 2026) | **$2,988,380** |
-| Revenue-generating orders | **42,696** of 49,830 cleaned order lines |
-| Average order value | **$69.99** |
-| Revenue at risk | **$503,943** |
-| Orders completed | 92.0% |
-| Payments that succeed | 93.1% |
+Recognised revenue was broadly stable across 2024 and 2025 before
+falling sharply in H1 2026.
 
----
+**H1 2026 recognised revenue: R462K**
 
-## What I tested
+**H1 2025 recognised revenue: R624K**
 
-Following the case study's own steps, I:
+This represents approximately a **25.9% decline**.
 
-1. **Profiled all four files** — row counts, column types, and what each row represents (customers = 1 row/customer, orders = 1 row/order line, payments = 1 row/payment attempt, products = 1 row/SKU).
-2. **Checked every data-quality angle the brief asked for** — missing values, duplicates, out-of-range numbers, inconsistent text, and broken links between tables (see [Data quality](#data-quality)).
-3. **Joined orders → products → customers → payments** into one order-level table and re-checked the row count after each join.
-4. **Built the fields the raw data didn't have**: `Revenue = Quantity × UnitPrice × (1 − Discount)`, plus `Year`/`Month` for trend analysis.
-5. **Decided a revenue-recognition rule** — see below — and applied it consistently everywhere.
-6. **Answered every Step 5 business question**: total revenue and orders, month-by-month trend and seasonality, category/product revenue vs. units, city/segment value, cancellation and payment-failure rates by method, and whether discount size correlates with order size.
-7. **Cross-checked** the drop in February 2026 against order status mix and payment status mix by month, to rule out "it's just more cancellations" as the explanation (it isn't — the mix stayed normal, only the volume fell).
+> **Business implication:** the 2026 decline requires investigation into
+> order volume, acquisition, stock availability, pricing and market
+> conditions.
 
-**Revenue recognition rule:** an order counts toward revenue only when `Status = Completed` **and** `PaymentStatus = Paid`. Cancelled, returned, failed, and refunded orders are excluded from revenue and tracked separately as "revenue at risk." This is a judgement call made for this analysis, not a fact in the data — it's flagged so Operations can challenge it if they define revenue differently.
+------------------------------------------------------------------------
 
----
+### 2. Electronics is the main revenue engine
 
-## What's actually driving this
+Electronics contributes approximately **50.6% of recognised revenue**,
+making it the most important category in the portfolio.
 
-**The Feb 2026 revenue drop is a volume problem, not a quality problem.** Order counts fell from ~1,770/month in January 2026 to ~1,085 in February and stayed in the 1,085–1,255 range through June — a sustained ~30–38% drop in order count. Over the same months, the *share* of orders cancelled, returned, or failed stayed within its normal historical range (cancellations ~4.7–6.0%, payment failures ~3.3–4.4%). In other words, **customers stopped placing as many orders — the orders that did happen behaved normally.** That points toward something upstream of checkout: marketing/acquisition, traffic, pricing, stock availability, or a competitor/market shift — not a broken payment flow or a wave of bad orders. This dataset alone can't say which; it's the top item for Operations to chase down.
+> **Business implication:** protect availability and performance of
+> high-value Electronics products while using lower-value categories to
+> support basket building.
 
 ![Revenue vs. units by category](assets/category_revenue_units.png)
 
-**Electronics is what pays the bills.** At ~50% of revenue from ~29% of units, the category runs at a materially higher price point than the rest of the catalogue. Accessories is the mirror image — highest volume, lowest revenue share — useful for basket-building and traffic, not for margin.
+------------------------------------------------------------------------
 
-![Average order value falls as discount rises](assets/discount_vs_aov.png)
+### 3. Tehran is the largest revenue market
 
-**Discounting is not a growth lever here.** If discounts were driving bigger baskets, average order value would rise with the discount tier. Instead it falls in a straight line, and average quantity per order is essentially flat across every tier. The data doesn't show customers buying more because of a discount — it shows the same-sized order at a lower price.
+Tehran contributes approximately **27.9% of recognised revenue** after
+standardising inconsistent city names.
 
-**Payment failure looks systemic, not method-specific.** Gateway, CardToCard, Wallet and Cash all fail at within half a percentage point of each other (~3.7–4.0%). If one method were the problem, its failure rate would stand out; it doesn't. That's more consistent with a shared checkout/gateway issue than with any single payment option being unreliable.
+> **Business implication:** Tehran should receive particular attention
+> for customer retention, promotions, service levels and market-specific
+> performance.
 
-## Three recommendations
+------------------------------------------------------------------------
 
-1. **Investigate the Feb–Jun 2026 order-volume drop this week.** Order counts fell ~35% and stayed down for five straight months while the cancellation and payment mix stayed normal. Check marketing spend, app/checkout uptime, and stock levels for that window before assuming it's seasonal — this is worth more than any other single action on this list.
-2. **Stop using blanket discounts as a growth lever.** They shrink average order value without lifting basket size. Redirect that budget toward the products that already drive revenue (Headphones, Office Chair, Tablet, Smart Watch) or toward giving VIP customers an actual reason to spend more per order — right now they don't.
-3. **Fix the ~$504K revenue leak from cancellations, returns and payment failures.** A near-identical ~4% failure rate across every payment method points to a shared checkout/gateway problem rather than one bad option. A reliability fix here could recover a meaningful share of that $504K without touching acquisition at all.
+### 4. Regular customers are the core revenue base
 
----
+Regular customers contribute approximately **55.5% of recognised
+revenue**.
 
-## Data quality
+> **Business implication:** retaining and increasing the value of
+> existing regular customers could have a meaningful impact on overall
+> revenue.
 
-Real data is messy — here's every problem found and exactly what was done about it, so every number above can be traced back to a decision.
+------------------------------------------------------------------------
 
-| Issue | Rows affected | What I found | What I did |
-|---|---|---|---|
-| Duplicate order lines | 120 | Same order repeated exactly — looked like a double-logged submission | Removed the repeats, kept the first occurrence |
-| Orders with no matching customer | 30 | CustomerID doesn't exist in `customers.csv` (broken link) | Removed (0.06% of orders) |
-| Missing order date | 35 | `OrderDate` blank — can't be placed on the monthly trend | Removed |
-| Missing or invalid quantity | 105 | 80 blank, 25 negative/zero (as low as -2) — impossible for a real sale | Removed |
-| Missing discount | 220 | `Discount` blank on ~0.4% of orders | Assumed 0% (no markdown applied) rather than guessing |
-| Missing payment method | 448 | `PaymentMethod` blank on ~0.9% of orders | Labelled `Unknown` so they stay visible in the breakdown |
-| Inconsistent city spelling | 229 customers | `Tehran`/`tehran` and `Mashad`/`Mashhad` both appeared | Standardised to one spelling per city |
-| Missing city | 119 customers | `City` blank | Labelled `Unknown`, kept in revenue totals |
-| Missing age | 180 customers | `Age` blank | Left blank — not needed for any Step 5 question |
-| Suspicious product price | Monitor, $21 | Every other Electronics item costs $18–$260; $21 for a monitor looks like a data-entry error | Kept as-is but flagged — treat Monitor's revenue with caution until confirmed |
+### 5. Revenue leakage is a material operational issue
 
-**Net effect:** 49,830 of 50,120 raw order lines (99.4%) were kept for analysis after cleaning.
+Approximately **8.0% of unique orders were cancelled or returned**,
+while payment failures represented approximately **3.85% of payment
+attempts**.
 
----
+> **Business implication:** reducing avoidable cancellations, returns
+> and payment failures could recover revenue without requiring
+> additional customer acquisition.
 
-## What's in this repo
+------------------------------------------------------------------------
 
+### 6. Broad discounting does not appear to increase basket value
+
+Average order value decreases as discount levels increase.
+
+![Average order value falls as discount
+rises](assets/discount_vs_aov.png)
+
+The relationship is **associational, not proof of causation**.
+
+> **Business implication:** management should test targeted promotions
+> and bundles instead of assuming that larger blanket discounts
+> automatically create larger baskets.
+
+------------------------------------------------------------------------
+
+## 📌 Final Reporting KPIs
+
+  Metric                              Final Value
+  --------------------------- -------------------
+  **Unique Orders**                    **50,000**
+  **Recognised Orders**                **42,849**
+  **Recognised Revenue**        **R2,978,172.55**
+  **Average Order Value**              **R69.50**
+  **Recognised Units Sold**            **80,482**
+  **Cancelled + Returned**               **8.0%**
+  **Payment Failures**                  **3.85%**
+  **H1 2026 Revenue**                   **R462K**
+  **H1 2026 vs H1 2025**               **-25.9%**
+
+> **Reporting definition:** Recognised revenue is based on completed
+> orders with a successful paid payment.
+
+------------------------------------------------------------------------
+
+# 🧭 What Was Tested
+
+Following the case study requirements, I worked through the analysis as
+an analyst would in a real business environment.
+
+### 01 --- Profile the data
+
+I reviewed:
+
+-   Row and column counts
+-   Data types
+-   Missing values
+-   Duplicate records
+-   Numeric ranges
+-   Date fields
+-   Unique identifiers
+-   Relationships between tables
+
+### 02 --- Clean and validate
+
+I checked:
+
+-   Duplicate OrderIDs
+-   Missing quantities and discounts
+-   Invalid quantities
+-   Inconsistent city names
+-   Missing customer information
+-   Product/customer/payment relationships
+-   Suspicious values
+
+### 03 --- Build the analytical dataset
+
+The four sources were connected through:
+
+``` text
+Customers
+   │
+   │ CustomerID
+   ▼
+Orders ───────── ProductID ───────► Products
+   │
+   │ OrderID
+   ▼
+Payments
 ```
+
+### 04 --- Create analytical fields
+
+Key calculated fields included:
+
+``` text
+Gross Value
+= Quantity × UnitPrice
+
+Recognised Revenue
+= Quantity × UnitPrice × (1 − Discount)
+
+Recognised Order
+= Completed AND Paid
+
+Year
+= YEAR(OrderDate)
+
+Month
+= MONTH(OrderDate)
+```
+
+### 05 --- Answer business questions
+
+I analysed:
+
+-   Revenue and order performance
+-   Monthly trends
+-   Category performance
+-   Product performance
+-   City performance
+-   Customer segment performance
+-   Cancellation and return rates
+-   Payment failures
+-   Discount versus order value
+
+### 06 --- Validate the story
+
+The final KPIs were cross-checked against the cleaned analytical dataset
+before being used in the dashboard and README.
+
+------------------------------------------------------------------------
+
+# 🚦 What's Actually Driving This?
+
+## The 2026 decline is primarily an order-volume problem
+
+The most important finding is not simply that revenue fell.
+
+The business needs to know **why**.
+
+The analysis shows a sustained reduction in order activity during H1
+2026 while the cancellation and payment-failure mix remained within a
+relatively normal range.
+
+That shifts the investigation upstream toward:
+
+-   Customer acquisition
+-   Marketing activity
+-   Stock availability
+-   Pricing
+-   Website/app traffic
+-   Competitor activity
+-   Market conditions
+
+**The dataset cannot prove which of these caused the decline**, so I
+have deliberately presented them as investigation areas rather than
+unsupported conclusions.
+
+------------------------------------------------------------------------
+
+## Electronics drives value while other categories drive volume
+
+Electronics contributes more than half of recognised revenue.
+
+This creates an important management trade-off:
+
+> **Volume is not the same as value.**
+
+A category can sell many units without being the largest contributor to
+revenue.
+
+This is why the analysis separates:
+
+-   Revenue
+-   Units
+-   Average order value
+-   Category contribution
+
+------------------------------------------------------------------------
+
+## Discounts should be evaluated by business outcome
+
+Rather than simply reporting which discount tier was used most often, I
+tested whether higher discounts were associated with larger baskets.
+
+The data does not show evidence that larger discounts automatically
+produce larger order values.
+
+This supports a more disciplined promotion strategy:
+
+> **Measure incremental revenue and basket value --- not discount
+> activity alone.**
+
+------------------------------------------------------------------------
+
+# 💡 Three Recommendations
+
+### 1. Investigate the H1 2026 order-volume decline
+
+Break the decline down by:
+
+-   Month
+-   Product
+-   Category
+-   City
+-   Customer segment
+-   Payment method
+
+Then compare the period with marketing activity, stock availability,
+pricing and website/app performance.
+
+**Priority: HIGH**
+
+------------------------------------------------------------------------
+
+### 2. Reduce revenue leakage
+
+Focus on:
+
+-   Cancellation reasons
+-   Return reasons
+-   Failed payments
+-   Payment gateway performance
+-   High-return products
+-   High-cancellation customer/product combinations
+
+**Priority: HIGH**
+
+------------------------------------------------------------------------
+
+### 3. Replace blanket discounts with targeted promotions
+
+Test:
+
+-   Product bundles
+-   Category-specific promotions
+-   Customer-segment offers
+-   VIP/Regular retention offers
+-   Cross-selling accessories with Electronics
+
+Measure each campaign against:
+
+-   Revenue
+-   AOV
+-   Units per order
+-   Margin where available
+-   Repeat purchasing
+
+**Priority: MEDIUM--HIGH**
+
+------------------------------------------------------------------------
+
+# 🧹 Data Quality
+
+Real business data is messy. I treated data quality as part of the
+analysis rather than as a separate technical exercise.
+
+  -----------------------------------------------------------------------
+  Issue                   Finding                 Treatment
+  ----------------------- ----------------------- -----------------------
+  Duplicate OrderIDs      Duplicate order records Removed duplicate
+                          identified              OrderID records
+
+  Missing quantity        Missing/invalid         Not invented; affected
+                          quantity values         calculations flagged
+
+  Missing discount        Blank discount values   Not silently guessed in
+                                                  the analytical dataset
+
+  Missing payment method  Blank payment methods   Retained and flagged
+
+  Inconsistent city       `Tehran`/`tehran`,      Standardised
+  spelling                `Mashad`/`Mashhad`      
+
+  Missing customer links  Some OrderIDs reference Retained and flagged
+                          unavailable customers   
+
+  Product links           ProductID relationships Validated
+                          checked                 
+
+  Payment links           OrderID/payment         Validated
+                          relationships checked   
+
+  Suspicious values       Unusual numeric/product Flagged for business
+                          values investigated     review
+  -----------------------------------------------------------------------
+
+### Why this matters
+
+A polished dashboard is only as reliable as the data behind it.
+
+My approach was:
+
+> **Validate → document → decide → calculate → cross-check → report.**
+
+------------------------------------------------------------------------
+
+# 🧠 Analytical Thinking Demonstrated
+
+This project demonstrates several behaviours I would bring to a Data
+Analyst / Business Analyst role:
+
+### I don't just calculate --- I define the business rule
+
+For example:
+
+> What should count as revenue?
+
+I explicitly defined:
+
+``` text
+Status = Completed
+AND
+PaymentStatus = Paid
+```
+
+before calculating recognised revenue.
+
+### I distinguish facts from assumptions
+
+For example:
+
+> The dataset shows a revenue decline.
+
+That is a **fact**.
+
+> Marketing caused the decline.
+
+That would be an **unsupported assumption** without additional marketing
+data.
+
+This distinction is important when presenting analysis to management.
+
+### I connect technical work to business decisions
+
+Instead of ending with:
+
+> "Electronics = 50.6%."
+
+I translate it into:
+
+> "Electronics is the core revenue engine, so stock availability and
+> product performance in this category deserve priority attention."
+
+------------------------------------------------------------------------
+
+# 🛠️ Tools & Technologies
+
+  -----------------------------------------------------------------------
+  Tool                                How I Used It
+  ----------------------------------- -----------------------------------
+  **SQL**                             Data querying, joins, aggregation,
+                                      filtering and KPI analysis
+
+  **Python**                          Data preparation, validation and
+                                      analytical checks
+
+  **Excel**                           PivotTables, KPI calculations,
+                                      trend analysis and dashboard
+
+  **Power BI**                        Interactive business intelligence
+                                      and visual storytelling
+
+  **GitHub**                          Version-controlled portfolio
+                                      documentation
+
+  **Lovable**                         Interactive dashboard presentation
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 📁 Project Structure
+
+``` text
 .
-├── README.md                          ← you are here
-├── Shop_Performance_Dashboard.xlsx     ← the interactive deliverable (see below)
-├── assets/                             ← charts used in this README
+├── README.md
+├── Shop_Performance_Dashboard.xlsx
+├── assets/
+│   ├── banner.png
+│   ├── monthly_revenue_trend.png
+│   ├── category_revenue_units.png
+│   └── discount_vs_aov.png
+│
 └── data/
-    ├── raw/                            ← the four original files, untouched
+    ├── raw/
     │   ├── customers.csv
     │   ├── orders.csv
     │   ├── payments.csv
     │   └── products.csv
-    └── cleaned/                        ← output of the cleaning steps described above
+    │
+    └── cleaned/
         ├── customers_clean.csv
-        └── orders_clean.csv            ← the joined, order-level table everything is built from
+        └── orders_clean.csv
 ```
 
+------------------------------------------------------------------------
 
-| Tab | What it answers |
-|---|---|
-| **Overview** | What this workbook is, who it's for, and how the tabs fit together |
-| **Dashboard** | The one page to open first — KPI cards, headline charts, findings and recommendations |
-| **Monthly_Trend** | Is revenue growing, shrinking or flat? |
-| **Category_Product** | Which categories/products earn the most vs. sell the most |
-| **Geography_Segment** | Which cities and customer segments are most valuable |
-| **Ops_Quality** | Cancellation, return and payment-failure rates, by method |
-| **Discount_Analysis** | Do bigger discounts buy bigger orders? |
-| **Data_Quality** | Every issue found and what was done about it |
-| **Orders_Clean** | The full cleaned, joined order-level table (49,830 rows) |
+# 📊 Excel Deliverable
+
+The Excel workbook is structured around the business questions rather
+than around the raw tables.
+
+  -----------------------------------------------------------------------
+  Tab                                 Purpose
+  ----------------------------------- -----------------------------------
+  **Overview**                        Project purpose, methodology and
+                                      navigation
+
+  **Dashboard**                       Executive KPI cards, visuals,
+                                      findings and recommendations
+
+  **Monthly_Trend**                   Revenue trend and H1 2026
+                                      performance
+
+  **Category_Product**                Category and product revenue versus
+                                      units
+
+  **Geography_Segment**               City and customer-segment
+                                      performance
+
+  **Ops_Quality**                     Cancellations, returns and payment
+                                      failures
+
+  **Discount_Analysis**               Discount versus AOV and order
+                                      behaviour
+
+  **Data_Quality**                    Cleaning decisions and validation
+                                      checks
+
+  **Orders_Clean**                    Cleaned analytical order-level
+                                      dataset
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 🔄 End-to-End Analytical Workflow
+
+``` text
+BUSINESS QUESTION
+       ↓
+RAW DATA
+       ↓
+DATA PROFILING
+       ↓
+DATA QUALITY CHECKS
+       ↓
+CLEAN & STANDARDISE
+       ↓
+JOIN CUSTOMERS + ORDERS + PRODUCTS + PAYMENTS
+       ↓
+CREATE BUSINESS METRICS
+       ↓
+SQL / PYTHON ANALYSIS
+       ↓
+EXCEL / POWER BI VISUALISATION
+       ↓
+IDENTIFY KEY FINDINGS
+       ↓
+BUSINESS RECOMMENDATIONS
+       ↓
+MANAGEMENT DECISION
+```
+
+------------------------------------------------------------------------
+
+# 📈 Portfolio Outcome
+
+This project demonstrates an end-to-end analytics workflow:
+
+**Raw Data → Clean Data → Analysis → Visualisation → Insight →
+Recommendation**
+
+The goal was not simply to produce a dashboard.
+
+The goal was to answer:
+
+> **"What is happening in the business, why does it matter, and what
+> should management do next?"**
+
+------------------------------------------------------------------------
+
+## 📚 Case Study Deliverables
+
+-   ✅ Cleaned analytical dataset
+-   ✅ Data-quality assessment
+-   ✅ SQL analysis
+-   ✅ Python validation and analysis
+-   ✅ Excel PivotTable analysis
+-   ✅ Executive dashboard
+-   ✅ Power BI reporting
+-   ✅ Business insights
+-   ✅ Management recommendations
+-   ✅ GitHub documentation
+
+------------------------------------------------------------------------
+
+## ⭐ Recruiter Takeaway
+
+> **This project demonstrates my ability to take an ambiguous business
+> question, work through messy data, establish defensible business
+> rules, analyse performance across multiple dimensions, communicate
+> findings clearly, and turn analysis into practical recommendations.**
+
+**That's the skill I am building toward as a Data Analyst / Business
+Analyst.**
+
+------------------------------------------------------------------------
+
+### 🔗 Dashboard
+
+[Open the interactive Shop Performance
+Dashboard](https://performance-shine-dashboard.lovable.app)
+
+------------------------------------------------------------------------
+
+### 📌 Related Skills
+
+`SQL` `Python` `Pandas` `Excel` `Power BI` `Data Cleaning`
+`Data Validation` `Data Analysis` `Business Intelligence` `KPI Analysis`
+`Data Storytelling` `Dashboard Development` `Business Analysis`
+
 
 
 ---
