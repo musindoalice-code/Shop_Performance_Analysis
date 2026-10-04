@@ -70,8 +70,6 @@ dashboard](https://performance-shine-dashboard.lovable.app)
 
 # How Is the Shop Performing?
 
-![Shop Performance Analysis](assets/banner.png)
-
 A data-analysis case study covering customers, orders, products
 and payments for an online shop from January 2024 to June 2026.
 
