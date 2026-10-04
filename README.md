@@ -1,32 +1,12 @@
-::: {align="center"}
-# 🛒 Shop Performance Analysis
+<div align="center">
+  <h1>🛒 Shop Performance Analysis</h1>
+  <h3>Business Analysis Case Study | January 2024 – June 2026</h3>
+  <p>Turning raw business data into clear insights for better decisions.</p>
+  <p><strong>SQL • Python • Excel • Power BI • Data Cleaning • Business Intelligence</strong></p>
+  <br />
+  <img src="Shop_Performance_Analysis.banner.png" alt="Shop Performance Analysis" width="100%" />
+</div>
 
-### Business Analysis Case Study \| January 2024 -- June 2026
-
-```{=html}
-<p>
-```
-Turning raw business data into clear insights for better decisions.
-```{=html}
-</p>
-```
-```{=html}
-<p>
-```
-`<strong>`{=html}SQL • Python • Excel • Power BI • Data Cleaning •
-Business Intelligence`</strong>`{=html}
-```{=html}
-</p>
-```
-:::
-
-```{=html}
-<p align="center">
-```
-`<img src="Shop_Performance_Analysis.banner.png/Image.png" alt="Shop Performance Analysis" width="100%" />`{=html}
-```{=html}
-</p>
-```
 
 ------------------------------------------------------------------------
 
