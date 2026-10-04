@@ -680,7 +680,7 @@ The goal was to answer:
 
 ------------------------------------------------------------------------
 
-## ⭐ Recruiter Takeaway
+## ⭐ Takeaway
 
 > **This project demonstrates my ability to take an ambiguous business
 > question, work through messy data, establish defensible business
@@ -689,13 +689,6 @@ The goal was to answer:
 
 **That's the skill I am building toward as a Data Analyst / Business
 Analyst.**
-
-------------------------------------------------------------------------
-
-### 🔗 Dashboard
-
-[Open the interactive Shop Performance
-Dashboard](https://performance-shine-dashboard.lovable.app)
 
 ------------------------------------------------------------------------
 
