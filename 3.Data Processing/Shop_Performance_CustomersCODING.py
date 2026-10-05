@@ -45,9 +45,16 @@ Customers.dtypes
 
 # COMMAND ----------
 
+# DBTITLE 1,Convert Float to Int
 # Convert to integer while safely keeping missing values
 Customers['Age'] = Customers['Age'].astype('Int64')
 display(Customers[['Age']])
+
+# COMMAND ----------
+
+# DBTITLE 1,Cell 6
+Customers['SignupDate'] = pd.to_datetime(Customers['SignupDate'])
+display(Customers)
 
 # COMMAND ----------
 
@@ -125,6 +132,6 @@ print(segment_value)
 
 # COMMAND ----------
 
-# DBTITLE 1,Cell 12
+# DBTITLE 1,VIP Analysis
 VIP = Customers[Customers["CustomerSegment"] == "VIP"]
 print(VIP)
