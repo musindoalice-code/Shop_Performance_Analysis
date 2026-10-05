@@ -295,6 +295,21 @@ discount_vs_aov = (
 
 # COMMAND ----------
 
+# DBTITLE 1,Final Cleaned Table — Export to Excel
+# Final cleaned table — ready for Excel export
+# ---------------------------------------------------------------------------
+# Right-click the table below and choose Download as CSV to open in Excel.
+# Or use the to_excel line at the bottom to save directly as .xlsx.
+
+print(f"Final cleaned table: {df.shape[0]:,} rows × {df.shape[1]} columns")
+display(df)
+
+# To save as Excel file directly, uncomment the two lines below:
+# df.to_excel("cleaned_joined_orders.xlsx", index=False)
+# print("Saved cleaned_joined_orders.xlsx")
+
+# COMMAND ----------
+
 # Display all final result tables
 # ---------------------------------------------------------------------------
 print("HEADLINE METRICS")
