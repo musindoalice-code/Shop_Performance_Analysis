@@ -34,6 +34,12 @@ print(f"Duplicate OrderIDs: {dupes}  (expected: 0)")
 
 # DBTITLE 1,Check 2 — NaT OrderDates
 # Check 2: Invalid dates coerced to NaT (rows preserved)
+# This check counts how many OrderDate values are NaT (Not a Time).
+# During cleaning (Cell 14), pd.to_datetime(..., errors="coerce") was used,
+# so any unparseable/invalid date strings were converted to NaT instead of
+# raising an error — preserving the row while marking the date as missing.
+# The expectation is 0 (all dates parsed successfully), but any NaT rows
+# were kept rather than dropped.
 nat_dates = df["OrderDate"].isna().sum()
 print(f"NaT OrderDates: {nat_dates}  (invalid dates -> NaT, rows kept)")
 
@@ -120,6 +126,17 @@ print(f"Duplicate rows removed: {before - after}  ({before} -> {after})")
 # COMMAND ----------
 
 # --- orders: parse dates (invalid values become NaT via errors="coerce")
+#
+# What this does:
+#   1. Converts the OrderDate column in `orders` from whatever type it is
+#      (likely string) into proper pandas datetime objects.
+#   2. Converts the PaymentDate column in `payments` the same way.
+#   3. errors="coerce" means: if a value can't be parsed as a date, instead of
+#      raising an error and crashing the cell, pandas replaces it with NaT
+#      (Not a Time) — the datetime equivalent of NaN.  The row is preserved.
+#   4. The two print statements then count and report how many values in each
+#      column ended up as NaT, so you can see how many bad/missing dates exist.
+
 orders["OrderDate"] = pd.to_datetime(orders["OrderDate"], errors="coerce")
 payments["PaymentDate"] = pd.to_datetime(payments["PaymentDate"], errors="coerce")
 
