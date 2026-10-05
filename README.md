@@ -30,10 +30,6 @@ BI reporting → business recommendations**.
                                       inconsistent city names, broken
                                       links and validation checks
 
-  🗄️ SQL Analysis                     Filtering, aggregation, joins, CASE
-                                      logic, KPI calculations and
-                                      business questions
-
   🐍 Python                           Data preparation, validation and
                                       analytical checks
 
