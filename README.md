@@ -4,8 +4,8 @@
   <p>Turning raw business data into clear insights for better decisions.</p>
   <p><strong>SQL • Python • Excel • Power BI • Data Cleaning • Business Intelligence</strong></p>
   <br />
-<img src="assets/shop-performance-analysis-banner.png" alt="Shop Performance Analysis" width="100%" />
-
+  <!-- Use the clean, renamed path here -->
+  <img src="assets/banner1.png" alt="Shop Performance Analysis" width="100%" />
 </div>
 
 
