@@ -11,7 +11,7 @@ import json
 
 # DBTITLE 1,Cell 3 — Load Cleaned Data from Unity Catalog
 # STEP 0 — load the cleaned, joined table from Unity Catalog
-# (Cleaning & joining already done and saved by Cells 4–14; skip straight to analysis)
+# (Cleaning & joining already done and saved by Cells 4–14; 
 
 df = spark.table("shop_performance.shop_performance_data.cleaned_joined_orders").toPandas()
 
@@ -298,8 +298,6 @@ discount_vs_aov = (
 # DBTITLE 1,Final Cleaned Table — Export to Excel
 # Final cleaned table — ready for Excel export
 # ---------------------------------------------------------------------------
-# Right-click the table below and choose Download as CSV to open in Excel.
-# Or use the to_excel line at the bottom to save directly as .xlsx.
 
 print(f"Final cleaned table: {df.shape[0]:,} rows × {df.shape[1]} columns")
 display(df)
