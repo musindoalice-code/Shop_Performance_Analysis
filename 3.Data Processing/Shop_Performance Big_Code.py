@@ -32,9 +32,8 @@ print(f"Duplicate OrderIDs: {dupes}  (expected: 0)")
 
 # COMMAND ----------
 
-# DBTITLE 1,Check 2 — NaT OrderDates
-# Check 2: Invalid dates coerced to NaT (rows preserved)
-# This check counts how many OrderDate values are NaT (Not a Time).
+# DBTITLE 1,Check 2 — Not a Time OrderDates
+# Check 2:
 # During cleaning (Cell 14), pd.to_datetime(..., errors="coerce") was used,
 # so any unparseable/invalid date strings were converted to NaT instead of
 # raising an error — preserving the row while marking the date as missing.
@@ -125,8 +124,6 @@ print(f"Duplicate rows removed: {before - after}  ({before} -> {after})")
 
 # COMMAND ----------
 
-# --- orders: parse dates (invalid values become NaT via errors="coerce")
-#
 # What this does:
 #   1. Converts the OrderDate column in `orders` from whatever type it is
 #      (likely string) into proper pandas datetime objects.
