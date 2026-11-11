@@ -23,7 +23,9 @@ plt.plot(months, Sale)
 plt.title("Monthly Sales")
 plt.xlabel("Month")
 plt.ylabel("Sales")
+plt.grid()
 plt.show()
+
 
 # COMMAND ----------
 
@@ -36,7 +38,9 @@ plt.plot(x, y)
 plt.title("Line Chart")
 plt.ylabel('Y-Axis')
 plt.xlabel('X-Axis')
+plt.grid()
 plt.show()
+
 
 # COMMAND ----------
 
@@ -56,6 +60,7 @@ plt.ylabel("My Y")
 
 
 # Display the graph
+plt.grid()
 plt.show()
 
 # COMMAND ----------
@@ -149,4 +154,28 @@ plt.boxplot(data)
 plt.xlabel("Groups")
 plt.ylabel("Values")
 plt.title("Box Plot")
+plt.show()
+
+# COMMAND ----------
+
+import matplotlib.pyplot as plt
+months=["Jan","Feb","Mar","Apr","May"]
+revenue=[100,200,100,300,400]
+plt.figure(figsize=(7,4))
+plt.bar(months,revenue,color='blue',edgecolor='black')
+plt.title ("MonthlyRevenue")
+plt.xlabel('Months')
+plt.ylabel('Revenue')
+plt.legend()
+plt.grid()
+plt.show()
+
+# COMMAND ----------
+
+import matplotlib.pyplot as plt
+cars=['BMW','VW','MERC','GWM','OTHER']
+price=[35,20,15,15,15]
+colours=['yellow','blue','green','purple','pink']
+plt.pie(price,labels=cars,colors=colours,autopct='%1.1f%%',startangle=90)
+plt.title('Price Contribution')
 plt.show()
